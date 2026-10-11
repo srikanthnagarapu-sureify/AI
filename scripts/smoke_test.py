@@ -8,6 +8,7 @@ ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
+from demo.src.agents.rag_agent import RagAgent
 from week5.implementation.answer import answer_question
 
 REQUIRED_MODULES = [
@@ -28,6 +29,7 @@ for module_name in REQUIRED_MODULES:
         missing.append(f"{module_name}: {exc}")
 
 required_dirs = [
+    "demo",
     "guides",
     "week2",
     "week3",
@@ -46,6 +48,13 @@ try:
 except Exception as exc:  # pragma: no cover - smoke validation only
     missing.append(f"answer_question fallback: {exc}")
 
+try:
+    result = RagAgent().run("What products does Insurellm offer?")
+    if not result.answer or not result.steps or not result.sources:
+        raise RuntimeError("Demo agent did not return answer, steps, and sources.")
+except Exception as exc:  # pragma: no cover - smoke validation only
+    missing.append(f"demo RagAgent: {exc}")
+
 if missing or missing_dirs:
     print("SMOKE TEST FAILED")
     if missing:
@@ -60,4 +69,5 @@ if missing or missing_dirs:
 
 print("SMOKE TEST PASSED")
 print("Core dependencies and course directories are available.")
-print("Local fallback answer flow is working without requiring an API key.")
+print("Week5 fallback answer flow is working without requiring an API key.")
+print("Demo RAG + Agent flow is working without requiring an API key.")

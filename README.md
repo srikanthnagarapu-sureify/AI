@@ -34,8 +34,8 @@ This repository reflects a practical AI capability roadmap that can be used to:
 
 The project is organized into a clear portfolio layout while preserving the course progression.
 
+- `demo/` – **primary demo app**: RAG + tool-using agent with Gradio UI
 - `guides/` – introductory technical guidance and setup material
-- `setup/` – environment and troubleshooting instructions
 - `extras/` – optional resources and supporting experiments
 - `week2/` to `week8/` – progression of applied AI project work across the 8-week journey
 - `scripts/` – local validation and smoke-test automation
@@ -73,7 +73,13 @@ uv sync --frozen
 cp .env.example .env
 ```
 
-Then add your API keys to `.env` as needed.
+Or use the existing virtualenv:
+
+```bash
+source .venv/bin/activate
+```
+
+Then add your API keys to `.env` as needed (optional for the local demo).
 
 ## Validation commands
 
@@ -85,7 +91,24 @@ uv run python scripts/smoke_test.py
 
 This validates that the project environment and core dependencies are working.
 
-## Run a sample app
+## Run the RAG + Agent demo (recommended)
+
+```bash
+cd /Users/srikanthnagarapu/product/AI
+source .venv/bin/activate
+python demo/app.py
+```
+
+This launches the Insurellm assistant with:
+- knowledge-base retrieval (RAG)
+- an agent that plans and calls tools
+- source citations and agent step visibility in the UI
+
+Works in local demo mode without an API key. Add `OPENAI_API_KEY` to `.env` for fuller LLM answers.
+
+See `demo/README.md` for structure and suggested demo questions.
+
+## Run the original week5 sample app
 
 ```bash
 cd /Users/srikanthnagarapu/product/AI

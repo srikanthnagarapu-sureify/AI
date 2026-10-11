@@ -22,6 +22,7 @@ The project covers:
 ## Deliverables
 - Working notebooks and scripts across the eight-week learning journey
 - Demonstrations of practical AI applications
+- A review-ready RAG + Agent demo application (`demo/`)
 - Reusable environment and setup patterns
 - A project-ready repo structure suitable for review and presentation
 
