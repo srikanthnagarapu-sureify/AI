@@ -1,4 +1,4 @@
-# Mastering Generative AI and LLMs: An 8-Week Hands-On Journey
+# Generative AI and LLMs: 
 
 ## Executive summary
 
