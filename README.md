@@ -67,7 +67,7 @@ This project includes work aligned to real-world Generative AI use cases such as
 ## Quick start
 
 ```bash
-cd /Users/srikanthnagarapu/product/AI
+
 source $HOME/.local/bin/env
 uv sync --frozen
 cp .env.example .env
@@ -84,7 +84,7 @@ Then add your API keys to `.env` as needed (optional for the local demo).
 ## Validation commands
 
 ```bash
-cd /Users/srikanthnagarapu/product/AI
+
 source $HOME/.local/bin/env
 uv run python scripts/smoke_test.py
 ```
@@ -94,7 +94,7 @@ This validates that the project environment and core dependencies are working.
 ## Run the RAG + Agent demo (recommended)
 
 ```bash
-cd /Users/srikanthnagarapu/product/AI
+
 source .venv/bin/activate
 python demo/app.py
 ```
@@ -111,7 +111,7 @@ See `demo/README.md` for structure and suggested demo questions.
 ## Run the original week5 sample app
 
 ```bash
-cd /Users/srikanthnagarapu/product/AI
+
 source $HOME/.local/bin/env
 uv run python week5/app.py
 ```
