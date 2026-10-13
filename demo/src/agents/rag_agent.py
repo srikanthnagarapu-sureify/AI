@@ -156,20 +156,51 @@ class RagAgent:
                 "Try asking about company overview, products, employees, or contracts."
             )
 
-        bullets: list[str] = []
-        for chunk in sources[:5]:
-            snippet = re.sub(r"\s+", " ", chunk.content).strip()
-            if len(snippet) > 280:
-                snippet = snippet[:277] + "..."
-            bullets.append(f"- From **{chunk.source}**: {snippet}")
+        q_tokens = {token.lower() for token in re.findall(r"[a-z0-9_]+", question.lower())}
+        highlights: list[str] = []
+        citations: list[str] = []
 
-        joined = "\n".join(bullets)
+        for chunk in sources[:6]:
+            citations.append(f"`{chunk.source}`")
+            text = re.sub(r"[#*`]+", " ", chunk.content)
+            text = re.sub(r"\s+", " ", text).strip()
+            sentences = re.split(r"(?<=[.!?])\s+", text)
+            ranked: list[tuple[int, str]] = []
+            for sentence in sentences:
+                sentence = sentence.strip()
+                if len(sentence) < 40:
+                    continue
+                overlap = sum(1 for token in q_tokens if token in sentence.lower())
+                ranked.append((overlap, sentence))
+            ranked.sort(key=lambda item: (item[0], len(item[1])), reverse=True)
+            if ranked:
+                best = ranked[0][1]
+                if len(best) > 220:
+                    best = best[:217] + "..."
+                highlights.append(f"- {best} _(source: {chunk.source})_")
+
+        if not highlights:
+            for chunk in sources[:3]:
+                snippet = re.sub(r"\s+", " ", chunk.content).strip()
+                highlights.append(f"- {snippet[:220]}... _(source: {chunk.source})_")
+
+        unique_highlights = []
+        seen = set()
+        for item in highlights:
+            key = item[:120]
+            if key in seen:
+                continue
+            seen.add(key)
+            unique_highlights.append(item)
+
+        summary = "\n".join(unique_highlights[:5])
+        cited = ", ".join(dict.fromkeys(citations))
         return (
-            f"Based on retrieved Insurellm documents, here is a grounded answer to: "
-            f"**{question.strip()}**\n\n"
-            f"{joined}\n\n"
-            "_Running in local demo mode (no OPENAI_API_KEY). "
-            "Add an API key for fuller natural-language synthesis._"
+            f"**Answer (grounded from knowledge base)**\n\n"
+            f"{summary}\n\n"
+            f"**Sources used:** {cited}\n\n"
+            "_Local demo mode: answers are synthesized from retrieved documents. "
+            "Add `OPENAI_API_KEY` in `.env` for conversational LLM responses._"
         )
 
     def _answer_with_openai(
