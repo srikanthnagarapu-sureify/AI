@@ -1,7 +1,7 @@
 # Project Brief
 
 ## Project title
-Mastering Generative AI and LLMs: An 8-Week Hands-On Journey
+Mastering Generative AI and LLMs: 
 
 ## Objective
 Build practical capability in Generative AI and LLM engineering by implementing applied projects spanning foundational experimentation, retrieval systems, multimodal awareness, agent workflows, and production-like interfaces.
